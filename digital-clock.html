@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .clock { font-size: 2em; }
+        .timezone { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Digital Clock</h1>
+    <div id="clocks"></div>
+
+    <script>
+        const timezones = {
+            "UTC": 0,
+            "EST": -4,
+            "CST": -5,
+            "IST": +5.5,
+            "JST": +9,
+            "AEST": +10
+        };
+
+        function updateClocks() {
+            const now = new Date();
+            const container = document.getElementById('clocks');
+            container.innerHTML = '';
+            for (const [zone, offset] of Object.entries(timezones)) {
+                const localTime = new Date(now.getTime() + offset * 3600 * 1000);
+                container.innerHTML += `<div class='timezone'>${zone}: ${localTime.toISOString().substr(0, 19).replace('T', ' ')}</div>`;
+            }
+        }
+
+        setInterval(updateClocks, 1000);
+        updateClocks();
+    </script>
+</body>
+</html>
